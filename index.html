@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+   <head>
+<link rel="stylesheet" href="style.css">
+</head>
+   <body>
+    <form id="subscribeForm">
+        <h1>SIGN UP FOR DAILY INSIDERS</h1>
+        <label for="email">Enter your Gmail:</label><br><br>
+        <input type="email" id="email" name="email" required><br><br>
+        <button type="submit">Subscribe</button>
+      </form>
+
+    <p id="responseMessage"></p>
+  <script>
+    const form = document.getElementById('subscribeForm');
+
+    form.addEventListener('submit', async function(event) {
+      event.preventDefault();  // Prevent the form from submitting the traditional way
+
+      const email = document.getElementById('email').value;
+
+      try {
+        const response = await fetch('http://localhost:3000/subscribe', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        const result = await response.json();
+        document.getElementById('responseMessage').innerText = result.message;
+      } catch (error) {
+        document.getElementById('responseMessage').innerText = 'Error subscribing. Try again.';
+      }
+    });
+  </script>
+
+</body>
+</html>
